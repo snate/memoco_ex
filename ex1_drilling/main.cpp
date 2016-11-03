@@ -78,21 +78,26 @@ void setupLP(CEnv env, Prob lp) {
 
   // add consecutive arcs' constraints
   for (int k = 1; k < H; k++) {
-    std::vector<int> idx(2*H);      // indexes
-    std::vector<double> coef(2*H); // coefficients
-    for (int i = 0; i < H; i++) {
+    std::vector<int> idx(2*H-2);      // indexes
+    std::vector<double> coef(2*H-2); // coefficients
+    for (int i = 0; i < H-1; i++) {
       coef[i] = 1.0;
-      coef[H+i] = -1.0;
+      coef[H-1+i] = -1.0;
     }
     char sign = 'E';                  // equal
     int matbeg = 0;
-    for (int j = 0; j < H; j++) {
-      idx[H-1+j] = k*H + j;
-      idx[j]     = j*H + k;
+    for (int j = 0; j < k; j++) {
+      idx[j]   = j*H + k;
+      idx[H+j] = k*H + j;
     }
-    for (int i = 0; i < idx.size(); ++i) {
+    for (int j = k+1; j < H; j++) {
+      idx[j]   = j*H + k;
+      idx[H+j] = k*H + j;
+    }
+    for (int i = 0; i < 2*H-2; ++i) {
       cout<<"HI "<<k<<": "<<idx[i]<<endl;
     }
+    cout<<"----------------"<<endl;
     const double rhs = 1.0;
     CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sign,
         &matbeg, &idx[0], &coef[0], NULL, NULL);
