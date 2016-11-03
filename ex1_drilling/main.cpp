@@ -76,24 +76,33 @@ void setupLP(CEnv env, Prob lp) {
   CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, orIdx.size(), &orRhs, &orSign,
     &orMatBeg, &orIdx[0], &orCoef[0], NULL, NULL);
 
-  /*// add consecutive arcs' constraints
-  for (int i = 0; i < I; i++) {
-    std::vector<int> idx(J);          // indexes
-    std::vector<double> coef(J, 1.0); // coefficients
-    char sign = 'L';                  // less or equal
-    int matbeg = 0;
-    for (int j = 0; j < J; j++)
-    {
-      idx[j] = i*J + j;
+  // add consecutive arcs' constraints
+  for (int k = 1; k < H; k++) {
+    std::vector<int> idx(2*H);      // indexes
+    std::vector<double> coef(2*H); // coefficients
+    for (int i = 0; i < H; i++) {
+      coef[i] = 1.0;
+      coef[H+i] = -1.0;
     }
-    CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &D[i], &sign, &matbeg, &idx[0], &coef[0], NULL, NULL);
-  }*/
+    char sign = 'E';                  // equal
+    int matbeg = 0;
+    for (int j = 0; j < H; j++) {
+      idx[H-1+j] = k*H + j;
+      idx[j]     = j*H + k;
+    }
+    for (int i = 0; i < idx.size(); ++i) {
+      cout<<"HI "<<k<<": "<<idx[i]<<endl;
+    }
+    const double rhs = 1.0;
+    CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sign,
+        &matbeg, &idx[0], &coef[0], NULL, NULL);
+  }
 
   // add out-degree constraint for holes
   for (int i = 0; i < H; i++) {
     std::vector<int> idx(H);          // indexes
     std::vector<double> coef(H, 1.0); // coefficients
-    char sign = 'E';                  // less or equal
+    char sign = 'E';                  // equal
     int matbeg = 0;
     for (int j = 0; j < H; j++)
     {
@@ -108,7 +117,7 @@ void setupLP(CEnv env, Prob lp) {
   for (int i = 0; i < H; i++) {
     std::vector<int> idx(H);          // indexes
     std::vector<double> coef(H, 1.0); // coefficients
-    char sign = 'E';                  // less or equal
+    char sign = 'E';                  // equal
     int matbeg = 0;
     for (int j = 0; j < H; j++)
     {
@@ -117,6 +126,24 @@ void setupLP(CEnv env, Prob lp) {
     const double rhs = 1.0;
     CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sign,
         &matbeg, &idx[0], &coef[0], NULL, NULL);
+  }
+
+  // add big-M constraint for x's and y's
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < H; j++)
+    {
+      std::vector<int> idx(2);          // indexes
+      idx[0] = i*H + j;
+      idx[1] = ystart + i*H + j;
+      std::vector<double> coef(2); // coefficients
+      coef[0] = 1.0;
+      coef[1] = -H;
+      char sign = 'L';                  // less or equal
+      int matbeg = 0;
+      const double rhs = 0.0;
+      CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sign,
+          &matbeg, &idx[0], &coef[0], NULL, NULL);
+    }
   }
 
   // print (debug)
