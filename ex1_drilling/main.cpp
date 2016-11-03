@@ -43,7 +43,7 @@ void setupLP(CEnv env, Prob lp) {
       double ub = CPX_INFBOUND;
       snprintf(name, NAME_SIZE, "x_%c,%c", nameH[i], nameH[j]);
       char* xname = (char*)(&name[0]);
-      CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, &C[i*H+j], &lb, &ub, &xtype,
+      CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, 0, &lb, &ub, &xtype,
           &xname);
       // status = CPXnewcols (env, lp, ccnt, obj, lb, ub, xctype, colname);
     }
@@ -58,7 +58,7 @@ void setupLP(CEnv env, Prob lp) {
       double ub = 1.0;
       snprintf(name, NAME_SIZE, "y_%c,%c", nameH[i], nameH[j]);
       char* yname = (char*)(&name[0]);
-      CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, 0, &lb, &ub, &ytype, &yname);
+      CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, &C[i*H+j], &lb, &ub, &ytype, &yname);
     }
   }
 
