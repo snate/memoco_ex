@@ -104,6 +104,21 @@ void setupLP(CEnv env, Prob lp) {
         &matbeg, &idx[0], &coef[0], NULL, NULL);
   }
 
+  // add in-degree constraint for holes
+  for (int i = 0; i < H; i++) {
+    std::vector<int> idx(H);          // indexes
+    std::vector<double> coef(H, 1.0); // coefficients
+    char sign = 'E';                  // less or equal
+    int matbeg = 0;
+    for (int j = 0; j < H; j++)
+    {
+      idx[j] = ystart + j*H + i;
+    }
+    const double rhs = 1.0;
+    CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sign,
+        &matbeg, &idx[0], &coef[0], NULL, NULL);
+  }
+
   // print (debug)
   CHECKED_CPX_CALL( CPXwriteprob, env, lp, "drilling.lp", NULL );
   /// status = CPXwriteprob (env, lp, "myprob", filetype_str);
