@@ -86,18 +86,17 @@ void setupLP(CEnv env, Prob lp) {
     }
     char sign = 'E';                  // equal
     int matbeg = 0;
+    int count = 0;
     for (int j = 0; j < k; j++) {
-      idx[j]   = j*H + k;
-      idx[H+j] = k*H + j;
+      idx[count]   = j*H + k;
+      idx[H-1+count] = k*H + j;
+      count++;
     }
     for (int j = k+1; j < H; j++) {
-      idx[j]   = j*H + k;
-      idx[H+j] = k*H + j;
+      idx[count]   = j*H + k;
+      idx[H-1+count] = k*H + j;
+      count++;
     }
-    for (int i = 0; i < 2*H-2; ++i) {
-      cout<<"HI "<<k<<": "<<idx[i]<<endl;
-    }
-    cout<<"----------------"<<endl;
     const double rhs = 1.0;
     CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sign,
         &matbeg, &idx[0], &coef[0], NULL, NULL);
