@@ -15,6 +15,7 @@ class IllegalArgumentException {
 };
 
 vector<vector<int> > randSymmMatrixGen(int dim) {
+  srand(time(NULL));
   vector<vector<int> > matrix;
   matrix.resize(dim);
   for (int i = 0; i < dim; i++) {
