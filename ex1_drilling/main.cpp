@@ -12,6 +12,8 @@
 
 #include <cstdio>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <vector>
 #include "cpxmacro.h"
 
@@ -30,7 +32,23 @@ const char nameH[H] = { 'A', 'B', 'C' }; // holes' names
 const int NAME_SIZE = 512;
 char name[NAME_SIZE];
 
-double* stubForGenerateCosts() {
+double* generateCosts() {
+  double* data = new double[H*H];
+  ifstream input("data");
+  string line;
+  int lineNumber = 0;
+  while(lineNumber < H && getline(input, line)) {
+    istringstream ss(line);
+    string name;
+    ss>>name;
+    for (int i = 0; i < H; i++)
+      ss>>data[lineNumber*H+i];
+    lineNumber++;
+  }
+  return data;
+}
+
+double* stubWithPitagorianCosts() {
   double stackArr[H*H] = { 0.0, 3.0, 5.0,
       3.0, 0.0, 4.0,
       5.0, 4.0, 0.0 };
@@ -42,7 +60,7 @@ double* stubForGenerateCosts() {
 
 void setupLP(CEnv env, Prob lp) {
 
-  double* C = stubForGenerateCosts(); // distances between holes
+  double* C = generateCosts(); // distances between holes
 
   vector<vector<int> > map_x;
   map_x.resize(H);
