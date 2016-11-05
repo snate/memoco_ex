@@ -14,6 +14,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include <vector>
 #include "cpxmacro.h"
 
@@ -22,6 +23,28 @@ using namespace std;
 // error status and messagge buffer
 int status;
 char errmsg[BUF_SIZE];
+
+class InputTooShortException {
+public:
+  InputTooShortException(int expected, int actual) {
+    exp = expected;
+    act = actual;
+  }
+  virtual const char* what()  const throw() {
+    string e,a;
+    ostringstream convert;
+    convert << exp;
+    e = convert.str();
+    convert << act;
+    a = convert.str();
+    string res = "Expected number of lines: " + e + "   Actual: " + a + "\n";
+    const char *cstr = res.c_str();
+    return cstr;
+  }
+private:
+  int exp;
+  int act;
+};
 
 // data
 const int H = 3; // holes number
@@ -45,6 +68,7 @@ double* generateCosts() {
       ss>>data[lineNumber*H+i];
     lineNumber++;
   }
+  if(lineNumber < H) throw new InputTooShortException(H,lineNumber);
   return data;
 }
 
@@ -217,8 +241,10 @@ int main (int argc, char const *argv[])
     CPXfreeprob(env, &lp);
     CPXcloseCPLEX(&env);
   }
-  catch(exception& e)
-  {
+  catch(InputTooShortException& e) {
+      cout<<">>>EXCEPTION: "<<e.what()<<endl;
+  }
+  catch(exception& e) {
       cout<<">>>EXCEPTION: "<<e.what()<<endl;
   }
   return 0;
