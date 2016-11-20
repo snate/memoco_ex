@@ -24,51 +24,29 @@ using namespace std;
 int status;
 char errmsg[BUF_SIZE];
 
-class InputTooShortException {
-public:
-  InputTooShortException(int expected, int actual) {
-    exp = expected;
-    act = actual;
-  }
-  virtual const char* what()  const throw() {
-    string e,a;
-    ostringstream convert;
-    convert << exp;
-    e = convert.str();
-    convert << act;
-    a = convert.str();
-    string res = "Expected number of lines: " + e + "   Actual: " + a + "\n";
-    const char *cstr = res.c_str();
-    return cstr;
-  }
-private:
-  int exp;
-  int act;
-};
-
 // data
-const int H = 3; // holes number
-const char nameH[H] = { 'A', 'B', 'C' }; // holes' names
-// TODO: write following data in a more concise way
-// reminder: if data is arranged as follows, this matrix _must_ be symmetric
+int H; // holes number
+vector<string> holesName;
+const char* srcFile = "./data";
 
 const int NAME_SIZE = 512;
 char name[NAME_SIZE];
 
 double* generateCosts() {
   double* data = new double[H*H];
-  ifstream input("data");
   string line;
   int lineNumber = 0;
+  ifstream input(srcFile);
+  getline(input,line);
   while(lineNumber < H && getline(input, line)) {
     istringstream ss(line);
     string name;
-    ss>>name;
+    ss>>holesName[lineNumber];
+    cout<<lineNumber<<": "<<holesName[lineNumber]<<endl;
     for (int i = 0; i < H; i++)
       ss>>data[lineNumber*H+i];
     lineNumber++;
   }
-  if(lineNumber < H) throw new InputTooShortException(H,lineNumber);
   return data;
 }
 
@@ -84,6 +62,12 @@ double* stubWithPitagorianCosts() {
 
 void setupLP(CEnv env, Prob lp) {
 
+  ifstream input(srcFile);
+  string line;
+  getline(input, line);
+  istringstream ss(line);
+  ss>>H;
+  holesName.resize(H);
   double* C = generateCosts(); // distances between holes
 
   vector<vector<int> > map_x;
@@ -94,6 +78,7 @@ void setupLP(CEnv env, Prob lp) {
   map_y.resize(H);
   for (int i = 0; i < H; i++)
     map_y[i].resize(H);
+  string* nameH = &holesName[0];
   int var_count = 0;
 
   // add x_{i,j} positive integer variables
@@ -102,7 +87,7 @@ void setupLP(CEnv env, Prob lp) {
       char xtype = 'I';
       double lb = 0.0;
       double ub = CPX_INFBOUND;
-      snprintf(name, NAME_SIZE, "x_%c,%c", nameH[i], nameH[j]);
+      snprintf(name, NAME_SIZE, "x_%s,%s", nameH[i].c_str(), nameH[j].c_str());
       char* xname = (char*)(&name[0]);
       CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, 0, &lb, &ub, &xtype,
           &xname);
@@ -116,7 +101,7 @@ void setupLP(CEnv env, Prob lp) {
       char ytype = 'B';
       double lb = 0.0;
       double ub = 1.0;
-      snprintf(name, NAME_SIZE, "y_%c,%c", nameH[i], nameH[j]);
+      snprintf(name, NAME_SIZE, "y_%s,%s", nameH[i].c_str(), nameH[j].c_str());
       char* yname = (char*)(&name[0]);
       CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, &C[i*H+j], &lb, &ub, &ytype, &yname);
       map_y[i][j] = var_count++;
@@ -204,7 +189,7 @@ void setupLP(CEnv env, Prob lp) {
     }
 
   // print (debug)
-  CHECKED_CPX_CALL( CPXwriteprob, env, lp, "drilling.lp", NULL );
+  CHECKED_CPX_CALL( CPXwriteprob, env, lp, "output/drilling.lp", NULL );
   /// status = CPXwriteprob (env, lp, "myprob", filetype_str);
 }
 
@@ -236,13 +221,10 @@ int main (int argc, char const *argv[])
       cout<<"x #"<<i+1<<": "<<varValues[i]<<endl;
     for(int i = 0 ; i < H*H; ++i)
       cout<<"y #"<<i+1<<": "<<varValues[H+i]<<endl;
-    CHECKED_CPX_CALL( CPXsolwrite, env, lp, "drilling.sol" );
+    CHECKED_CPX_CALL( CPXsolwrite, env, lp, "output/drilling.sol" );
     // free
     CPXfreeprob(env, &lp);
     CPXcloseCPLEX(&env);
-  }
-  catch(InputTooShortException& e) {
-      cout<<">>>EXCEPTION: "<<e.what()<<endl;
   }
   catch(exception& e) {
       cout<<">>>EXCEPTION: "<<e.what()<<endl;

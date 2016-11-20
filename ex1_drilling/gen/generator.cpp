@@ -31,9 +31,10 @@ vector<vector<int> > randSymmMatrixGen(int dim) {
 int main(int argc, char* argv[]) {
   if(argc < 2) throw new IllegalArgumentException();
   cout<<"Generating "<<argv[1]<<" numbers..."<<endl;
-  int limit = *argv[1] - '0';
+  int limit = (int) strtol(argv[1], NULL, 0);
   ofstream file;
   file.open("../data");
+  file<<limit<<endl;
   vector<vector<int> > distances = randSymmMatrixGen(limit);
   for(int i=0; i < limit; i++) {
     file<<i;
