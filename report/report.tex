@@ -1,0 +1,28 @@
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+fleqn,
+leqno,
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\usepackage{memoco}
+\input{header.tex} % define header elements
+
+
+
+\begin{document}
+
+\maketitle
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{0}
+\tableofcontents
+
+\newpage
+%\input{sec/sec0.tex}
+
+
+\end{document}
