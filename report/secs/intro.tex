@@ -1,0 +1,22 @@
+\section{Introduction}
+The purpose of this document is to describe how a particular combinatorial
+optimization problem was solved by adopting several approaches in order to
+obtaining a value for the objective function in a limited amount of time without
+losing too much quality in the goodness of the solution.
+
+\subsection{(Brief) Problem description}
+The assignment is an instance of the classical \textit{Travelling Salesman
+Problem}: a company has to drill holes on a board, so that electrical components
+can be placed over the board by inserting their pins into the holes. The goal
+that the company is trying to achieve is to minimize the time the drill
+takes to make all the holes\footnote{as well as the distance that the drill
+covers by moving}.
+
+I will refer to this problem as the \textbf{drilling problem} from now on.
+
+\paragraph{Assumptions}
+\begin{itemize}
+  \item the starting point can be arbitrarily chosen;
+  \item the time that is needed to move from a node $i$ to a node $j$ depends
+    \textit{only} on the distance \dist{i}{j}.
+\end{itemize}
