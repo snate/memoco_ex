@@ -33,7 +33,19 @@ scenario the former programmer will pass the indexes maps to the latter, without
 requiring her to know any implementation detail.
 
 \subsection{Variables generation}
+In \cplex, before you create the constraints you (reasonably) have to declare
+the variables you are going to use. Since in this situation the model is
+relatively small, it is (arguably) more important to create it in a more
+expressive and clear manner rather than it is to make it efficiently.
+
+For this reason, variables of the sort $x_{i,j}$ and $y_{i,j}$ were defined in
+two separated cycles, iterating twice over the range of all $i,j\in{N}$, where
+$N$ is the set of holes.
 
 \subsection{Constraints generation}
+As it was done for variables, clarity has been chosen over efficiency for
+constraints too. Thus, constraints were added in several blocks so anyone can
+be able to understand what the program is doing at that line of code by looking
+at the comments at the beginning of each block.
 
 \subsection{Sample data generation}
