@@ -1,1 +1,39 @@
-\section{Part I}
+\section{Part I -- Exact method}
+
+In this section I'll describe the implementation details for the first part of
+the exercise, e.g. the one that finds the global optimum thanks to \cplex.
+
+\subsection{Data structures}
+Before calling the proper API to solve the optimization problem, the main
+procedure of the program has to write down the problem in the \cplex{}
+environment.
+
+This goal is indeed accomplished by calling a sub-procedure \texttt{setupLP}
+that is accountable for generating variables and constraints: thus, along this
+function we need to keep track of the indexes of the variables we declared so
+that we are able to refer to them when creating the constraints.
+
+An initial solution may be to inspect how variables are defined and then
+re-compute their indexes each time we need to refer to a given variable.
+
+It is easy to see that this approach may lead to poor code quality: if variables
+were generated in another procedure and then the incomplete problem was handed
+off to another programmer, it would have to look at \textit{how} her colleague
+defined the variables (all of this without guarantees that the variables
+generation is fixed).
+
+Thus, an (pretty straightforward) alternative solution is to store variables'
+indexes in a ``map'' while generating the variables, i.e. an $n$-dimensional
+vector where $n$ is the dimension of a certain variable\footnote{if a variable
+$x_{i,j}$ is indexed with two factors $i$ and $j$, then the map relative to
+$x_{i,j}$ will have two dimensions}.
+Therefore, variables and constraints generation are now loosely coupled, which
+is clearly a good software engineering discipline: in fact, in the previous
+scenario the former programmer will pass the indexes maps to the latter, without
+requiring her to know any implementation detail.
+
+\subsection{Variables generation}
+
+\subsection{Constraints generation}
+
+\subsection{Sample data generation}
