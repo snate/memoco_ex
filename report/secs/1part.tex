@@ -49,3 +49,65 @@ be able to understand what the program is doing at that line of code by looking
 at the comments at the beginning of each block.
 
 \subsection{Sample data generation}
+An important point for this part of the assignment is being able to generate
+realistic data to make the solver run under different conditions.
+Therefore, I thought of creating data in three different manners.
+
+\paragraph{Hard-coded values} The simpliest way to have sample data to test the
+solution was to put fixed input data to the problem, so it was easy to see if
+both the problem and the solution given by the program were correct.
+
+The solver was in fact tested against this configuration:
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\foreach \Point in {(0,0), (1.5,0), (1.5,2)}{
+  \node at \Point {\textbullet};
+}
+\end{tikzpicture}
+\end{figure}
+
+These points are placed in a classical $3$-$4$-$5$ pythagorian triple, thus it
+is very easy to figure out the problem structure and its solution.
+
+\paragraph{Random generation} The second way we can generate sample data is
+doing it in a random fashion.
+
+There are several benefits and drawbacks that come with this approach:
+
+\begin{itemize}
+  \item \textbf{Pros}:
+  \begin{itemize}
+    \item When compared to the hard-coded value, it is easier to generate large
+      samples to run the program against;
+    \item Compared to the next solution (generation from Gerber files), it is
+      easier to test the efficiency of the program against huge amount of data
+      (i.e., far bigger than a realistic drilling problem);
+    \item It provides some entropy among several runs, so it is less hard to
+      capture the average behaviour of the program against a completely generic
+      sample instance.
+  \end{itemize}
+  \item \textbf{Cons}:
+  \begin{itemize}
+    \item There is no guarantee on the fact that the generator will provide
+      realistic data w.r.t. the domain problem;
+    \item It is more complex to use for initial testing of the model compared
+      to hard-coded data, since you have to solve manually the problem to be
+      sure that it works without errors.
+  \end{itemize}
+\end{itemize}
+
+\paragraph{Parsing Gerber files} As it has just been stated in the previous
+paragraph, random data generation might provide unrealistic samples, which
+we would like to be able to filter out in order to capture the average
+performance in \textbf{realistic} scenarios.
+
+It turns out that there is a de-facto standard to write files that represents
+PCBs (\textit{printed circuit boards}). More specifically, in this files we
+have the information of all the holes in a PCB among other information (size
+of the drill, length of the board, etc.).
+
+Therefore, it has been enough to implement a simple Gerber parser to extract
+useful information (holes' position) from these files and re-format them so
+that they are good sample instances for the solver program.
