@@ -42,7 +42,6 @@ double* generateCosts() {
     istringstream ss(line);
     string name;
     ss>>holesName[lineNumber];
-    cout<<lineNumber<<": "<<holesName[lineNumber]<<endl;
     for (int i = 0; i < H; i++)
       ss>>data[lineNumber*H+i];
     lineNumber++;
