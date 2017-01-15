@@ -1,6 +1,6 @@
 /**
- * @file generator.cpp
- * @brief data generator for drilling problem
+ * @file generator_ru.cpp
+ * @brief random uniform data generator for drilling problem
  */
 
 #include <cstdio>
