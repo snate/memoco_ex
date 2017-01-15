@@ -1,5 +1,6 @@
 #!/bin/bash
 count=$1
-(cd ../gen; g++ generator.cpp;
-./a.out  $count
+size=$2
+(cd ../gen; g++ generator_ru.cpp;
+./a.out $count $size
 rm a.out)

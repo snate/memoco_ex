@@ -14,7 +14,8 @@ using namespace std;
 class IllegalArgumentException {
 };
 
-vector<vector<int> > randSymmMatrixGen(int dim) {
+vector<vector<int> > randSymmMatrixGen(int dim, int boardSize) {
+  boardSize = boardSize * dim * dim;
   srand(time(NULL));
   vector<vector<int> > matrix;
   matrix.resize(dim);
@@ -24,18 +25,20 @@ vector<vector<int> > randSymmMatrixGen(int dim) {
   }
   for (int i = 0; i < dim; i++)
     for (int j = 0; j < i; j++)
-      matrix[i][j] = matrix[j][i] = rand() % 100 + 1;
+      matrix[i][j] = matrix[j][i] = rand() % boardSize + 1;
   return matrix;
 }
 
 int main(int argc, char* argv[]) {
-  if(argc < 2) throw new IllegalArgumentException();
-  cout<<"Generating "<<argv[1]<<" numbers..."<<endl;
+  if(argc < 3) throw new IllegalArgumentException();
+  cout<<"Generating "<<argv[1]<<" numbers ";
+  cout<<"for a "<<argv[2]<<"x-sized board..."<<endl;
   int limit = (int) strtol(argv[1], NULL, 0);
+  int size = (int) strtol(argv[2], NULL, 0);
   ofstream file;
-  file.open("../data");
+  file.open("../instances/ru_data.dat");
   file<<limit<<endl;
-  vector<vector<int> > distances = randSymmMatrixGen(limit);
+  vector<vector<int> > distances = randSymmMatrixGen(limit, size);
   for(int i=0; i < limit; i++) {
     file<<i;
     for (int j = 0; j < limit; j++)

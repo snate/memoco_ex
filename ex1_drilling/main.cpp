@@ -27,7 +27,7 @@ char errmsg[BUF_SIZE];
 // data
 int H; // holes number
 vector<string> holesName;
-const char* srcFile = "./data";
+const char* srcFile = "./instances/data.dat";
 
 const int NAME_SIZE = 512;
 char name[NAME_SIZE];
