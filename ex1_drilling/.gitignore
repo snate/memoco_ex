@@ -1,5 +1,8 @@
 *.lp
 *.sol
 main
-data
+instances/data.dat
+instances/rg_data.dat
+instances/rg_data_Manh.dat
+instances/ru_data.dat
 output/*
