@@ -192,10 +192,12 @@ void setupLP(CEnv env, Prob lp) {
   /// status = CPXwriteprob (env, lp, "myprob", filetype_str);
 }
 
-int main (int argc, char const *argv[])
-{
-  try
-  {
+int main (int argc, char const *argv[]) {
+  try {
+    // get start time
+    clock_t t1, t2;
+    t1 = clock();
+
     // init
     DECL_ENV(env);
     DECL_PROB(env, lp);
@@ -211,6 +213,8 @@ int main (int argc, char const *argv[])
     CHECKED_CPX_CALL(CPXgetobjval, env, lp, &objval);
     cout<< "Objval: "<<objval<<endl;
 
+    // get final time
+    t2 = clock();
     //print solution (var values)
     int n = CPXgetnumcols(env, lp);
     vector<double> varValues;
@@ -220,10 +224,22 @@ int main (int argc, char const *argv[])
       cout<<"x #"<<i+1<<": "<<varValues[i]<<endl;
     for(int i = 0 ; i < H*H; ++i)
       cout<<"y #"<<i+1<<": "<<varValues[H+i]<<endl;
+    double elapsedTime = (double)(t2-t1) / CLOCKS_PER_SEC;
+    cout<<"in "<< elapsedTime << " seconds (CPU time)\n";
     CHECKED_CPX_CALL( CPXsolwrite, env, lp, "output/drilling.sol" );
     // free
     CPXfreeprob(env, &lp);
     CPXcloseCPLEX(&env);
+
+    // write execution times to file
+    if (argc > 1) {
+      ostringstream oss;
+      oss << "output/time_" << argv[1];
+      string path = oss.str();
+      ofstream logTime;
+      logTime.open(path.c_str(), std::ios_base::app);
+      logTime << elapsedTime << "\n";
+    }
   }
   catch(exception& e) {
       cout<<">>>EXCEPTION: "<<e.what()<<endl;
