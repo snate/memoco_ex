@@ -15,8 +15,8 @@ using namespace std;
 class IllegalArgumentException {
 };
 
-vector<vector<int> > randSymmMatrixGen(int holes, int divisions) {
-  int boardSize = 2 * holes;
+vector<vector<int> > randSymmMatrixGen(int holes, int size, int divisions) {
+  int boardSize = 2 * holes * size;
   int cellSize = boardSize / divisions;
   srand(time(NULL));
   vector<int> xPositions;
@@ -56,15 +56,17 @@ vector<vector<int> > randSymmMatrixGen(int holes, int divisions) {
 }
 
 int main(int argc, char* argv[]) {
-  if(argc < 3) throw new IllegalArgumentException();
+  if(argc < 4) throw new IllegalArgumentException();
   cout<<"Generating "<<argv[1]<<" holes ";
-  cout<<"for a "<<argv[2]<<"-zoned grid..."<<endl;
+  cout<<"for a "<<argv[2]<<"x-sized grid ";
+  cout<<"with "<<argv[3]<<" divisions..."<<endl;
   int holes = (int) strtol(argv[1], NULL, 0);
-  int zonesPerDim = (int) strtol(argv[2], NULL, 0);
+  int size = (int) strtol(argv[2], NULL, 0);
+  int zonesPerDim = (int) strtol(argv[3], NULL, 0);
   ofstream file;
   file.open("../instances/rg_data.dat");
   file<<holes<<endl;
-  vector<vector<int> > distances = randSymmMatrixGen(holes, zonesPerDim);
+  vector<vector<int> > distances = randSymmMatrixGen(holes, size, zonesPerDim);
   for(int i=0; i < holes; i++) {
     file<<i;
     for (int j = 0; j < holes; j++)
