@@ -234,11 +234,11 @@ int main (int argc, char const *argv[]) {
     // write execution times to file
     if (argc > 1) {
       ostringstream oss;
-      oss << "output/time_" << argv[1];
+      oss << "output/performance_" << argv[1];
       string path = oss.str();
       ofstream logTime;
       logTime.open(path.c_str(), std::ios_base::app);
-      logTime << elapsedTime << "\n";
+      logTime << elapsedTime << "\t" << objval << "\n";
     }
   }
   catch(exception& e) {
