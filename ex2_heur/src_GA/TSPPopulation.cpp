@@ -14,10 +14,12 @@ using namespace std;
 void TSPPopulation::
      initialPopulation(const TSP& tsp, int n) {
   srand( time(NULL) );
-  // TODO: Use local search to improve n elements of the initial population
   for(int i = 0; i < n; i++)
     population.push_back(new TSPSolution(tsp));
-  for(int i = 0; i < n; i++)
+  for (int i = 0; i < createdWithHeur; ++i) {
+    initHeur(tsp, *population[i]);
+  }
+  for(int i = createdWithHeur; i < n; i++)
     initRnd(tsp, *population[i]);
   orderPopulation(tsp);
 }
@@ -49,8 +51,7 @@ void TSPPopulation::printBestOfPopulation() {
   }
 }
 
-void TSPPopulation::
-     initRnd(const TSP &tsp, TSPSolution &solution) {
+void TSPPopulation::initRnd(const TSP &tsp, TSPSolution &solution) {
   vector<int> aux(tsp.n);
   vector<int> newSeq(tsp.n + 1);
   for(int i = 0; i < tsp.n; i++) aux[i] = i;
@@ -59,4 +60,22 @@ void TSPPopulation::
     newSeq[i] = aux[i];
   newSeq[tsp.n] = newSeq[0];
   solution = TSPSolution(newSeq);
+}
+
+void TSPPopulation::initHeur(const TSP &tsp, TSPSolution &solution) {
+  // Simulated Annealing
+  TSPSolution s = TSPSolution(solution);
+  int times = tsp.n;
+  for (int k = 0; k < times; ++k) {
+    TSPSolution sNew = TSPSolution(s);
+    sNew.becomeCloseNeighbour();
+    double evalS = s.evaluate(tsp);
+    double evalSNew = sNew.evaluate(tsp);
+    double score = exp (evalS * evalSNew / (times / (k + 1) * 2));
+    double threshold = (double) (rand() / RAND_MAX);
+    if(score >= threshold)
+      s = sNew;
+  }
+  solution = TSPSolution(s);
+
 }

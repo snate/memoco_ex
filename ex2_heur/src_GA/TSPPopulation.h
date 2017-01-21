@@ -41,8 +41,12 @@ public:
    */
   void printBestOfPopulation();
 
+  void setHeurGeneratedPopulation(int num) { createdWithHeur = num; }
+
 private:
+  int createdWithHeur = 1;
   void initRnd(const TSP& tsp, TSPSolution& solution);
+  void initHeur(const TSP& tsp, TSPSolution& solution);
 };
 
 #endif /* TSPPOPULATION */

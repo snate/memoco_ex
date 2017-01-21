@@ -8,6 +8,7 @@
 #define TSPSOLUTION_H
 
 #include <vector>
+#include <algorithm>
 
 #include "TSP.h"
 
@@ -50,9 +51,22 @@ public:
   * @param tspSol TSP solution
   */
   TSPSolution(const TSPSolution& tspSol) {
-    sequence.reserve(tspSol.sequence.size());
+    sequence.resize(tspSol.sequence.size());
     for ( uint i = 0; i < tspSol.sequence.size(); ++i )
       sequence[i] = tspSol.sequence[i];
+  }
+
+  /**
+   * Makes the current solution move to another near solution.
+   */
+  void becomeCloseNeighbour() {
+    // strategy to become close neighbour: swap of two random adjacent cells
+    int bound = sequence.size() - 3;
+    int index = rand() % bound + 1;
+    // index is between 1 and size-2
+    int aux = sequence[index];
+    sequence[index] = sequence[index + 1];
+    sequence[index + 1] = aux;
   }
 
 public:
@@ -68,9 +82,6 @@ public:
     for(uint i = 0 ; i < sequence.size() - 1; i++) {
       int from = sequence[i];
       int to   = sequence[i+1];
-      // crasha qui
-      // (gdb) print sequence
-      // $2 = std::vector of length 13, capacity 13 = {7, 8, 11, 10, 9, 6, 1, 0, 4, 5, 822686986, 7, 2}
       total   += tsp.cost[from][to];
     }
     return total;
