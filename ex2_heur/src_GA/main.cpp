@@ -5,6 +5,9 @@
 
 
 #include <stdexcept>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include <ctime>
 #include <sys/time.h>
 
@@ -41,14 +44,22 @@ int main (int argc, char const *argv[]) {
     TSPSolution bestSolution(tspInstance);
     tspSolver.solve(tspInstance, bestSolution);
 
-    // final clocks
+    double bestValue = bestSolution.evaluate(tspInstance);
+    cout<<"Best solution with obj function value equal to "<<bestValue<<" found ";
+    // get execution time
     t2 = clock();
     gettimeofday(&tv2, NULL);
-
-    double ut = (double) (tv2.tv_sec+tv2.tv_usec*1e-6 - (tv1.tv_sec+tv1.tv_usec*1e-6));
-    cout<<"in "<< ut << " seconds (user time)\n";
-    cout<<"in "<< (double)(t2-t1) / CLOCKS_PER_SEC << " seconds (CPU time)\n";
-    
+    double executionTime = (double)(t2-t1) / CLOCKS_PER_SEC;
+    cout<<"in "<< executionTime << " seconds (CPU time)\n";
+    // write execution times to file
+    if (argc > 2) {
+      ostringstream oss;
+      oss << "output/performance_" << argv[2];
+      string path = oss.str();
+      ofstream logTime;
+      logTime.open(path.c_str(), std::ios_base::app);
+      logTime << executionTime << "\t" << bestValue << "\n";
+    }
   }
   catch(exception& e) {
     cout << ">>>EXCEPTION: " << e.what() << endl;
