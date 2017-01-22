@@ -211,7 +211,6 @@ int main (int argc, char const *argv[]) {
     // print objective function value
     double objval = 0.0;
     CHECKED_CPX_CALL(CPXgetobjval, env, lp, &objval);
-    cout<< "Objval: "<<objval<<endl;
 
     // get final time
     t2 = clock();
@@ -225,7 +224,8 @@ int main (int argc, char const *argv[]) {
     for(int i = 0 ; i < H*H; ++i)
       cout<<"y #"<<i+1<<": "<<varValues[H+i]<<endl;
     double elapsedTime = (double)(t2-t1) / CLOCKS_PER_SEC;
-    cout<<"in "<< elapsedTime << " seconds (CPU time)\n";
+    cout<< "Objval: found "<<objval;
+    cout<<" in "<< elapsedTime << " seconds (CPU time)\n";
     CHECKED_CPX_CALL( CPXsolwrite, env, lp, "output/drilling.sol" );
     // free
     CPXfreeprob(env, &lp);
