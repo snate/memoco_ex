@@ -5,9 +5,7 @@
  */
 
 #include "TSPSolver.h"
-#include "TSPPopulation.h"
 #include "TSPRecombinator.h"
-#include "TSPReplacer.h"
 #include "TSPSelector.h"
 
 #include <iostream>
@@ -17,19 +15,16 @@
 
 using namespace std;
 
-bool TSPSolver::solve(const TSP& tsp, TSPSolution& bestSol) {
+bool TSPSolver::solve(const TSP& tsp, TSPSolution& bestSol, const char* conf) {
 
   TSPPopulation population = TSPPopulation();
   TSPRecombinator recombinator = TSPRecombinator();
   TSPReplacer replacer = TSPReplacer();
 
-  population.setHeurGeneratedPopulation(2);
-  setPopulationSize(10);      // tuning
-  setTimeLimit(10) ;          // tuning
-  setMutationThreshold(0.8);  // tuning
-  replacer.setEliteSize(1);   // tuning
+  loadConfig(conf,population, replacer);
 
   TSPSelector aSelector = TSPSelector(populationSize);
+
 
   struct timeval tv1, tv2;
   gettimeofday(&tv1, NULL);

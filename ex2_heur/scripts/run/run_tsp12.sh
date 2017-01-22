@@ -1,2 +1,3 @@
 #!/bin/bash
-./src_GA/main instances/tsp12.dat 12
+tuning=$1
+./src_GA/main instances/tsp12.dat 12 $tuning

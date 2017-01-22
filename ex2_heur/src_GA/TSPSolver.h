@@ -10,6 +10,8 @@
 #include <vector>
 #include <ctime>
 
+#include "TSPPopulation.h"
+#include "TSPReplacer.h"
 #include "TSPSolution.h"
 
 /**
@@ -47,17 +49,31 @@ public:
    * @param bestSol best found solution (output)
    * @return true id everything OK, false otherwise
    */
-  bool solve(const TSP& tsp, TSPSolution& bestSol);
+  bool solve(const TSP& tsp, TSPSolution& bestSol, const char* conf);
 
 protected:
   /**
-   * explore the neighbouhood
-   * @param tsp TSP data
-   * @param currSol center solution
-   * @return (into param move) the selected move (stepest descent strategy)
-   * @return the incremental cost with respect to currSol
    */
-  double findBestNeighbor(const TSP& tsp, const TSPSolution& currSol, TSPMove& move);
+  void loadConfig(const char* conf, TSPPopulation population, TSPReplacer replacer) {
+    ifstream input(conf);
+    int a;
+    double b;
+    input >> a;
+    setPopulationSize(a);
+    cout << "Population size: " << a << endl;
+    input >> a;
+    setTimeLimit(a);
+    cout << "Time limit (seconds): " << a << endl;
+    input >> b;
+    setMutationThreshold(b);
+    cout << "Mutation threshold: " << b*100 << "%" << endl;
+    input >> a;
+    population.setHeurGeneratedPopulation(a);
+    cout << "Population generated with heuristics: " << a << endl;
+    input >> a;
+    replacer.setEliteSize(a);
+    cout << "Elite size: " << a << endl;
+  }
 
 };
 

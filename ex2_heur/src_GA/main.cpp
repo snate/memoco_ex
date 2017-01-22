@@ -23,11 +23,12 @@ using namespace std;
 
 int main (int argc, char const *argv[]) {
   try {
-    if (argc < 2) throw runtime_error("usage: ./main filename.dat");
+    if (argc < 4) throw runtime_error("usage: ./main <filename.dat> <instance id> <path to conf>");
 
     // create the instance (reading data)
     TSP tspInstance;
     tspInstance.read(argv[1]);
+    const char* configFile = argv[3];
 
     // initialize clocks for running time recording
     //    1) CPU time (t2 - t1)
@@ -42,7 +43,7 @@ int main (int argc, char const *argv[]) {
 
     // run the neighbourhood search
     TSPSolution bestSolution(tspInstance);
-    tspSolver.solve(tspInstance, bestSolution);
+    tspSolver.solve(tspInstance, bestSolution, configFile);
 
     double bestValue = bestSolution.evaluate(tspInstance);
     cout<<"Best solution with obj function value equal to "<<bestValue<<" found ";

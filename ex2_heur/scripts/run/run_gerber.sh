@@ -1,2 +1,3 @@
 #!/bin/bash
-./src_GA/main instances/gerber.dat gerber
+tuning=$1
+./src_GA/main instances/gerber.dat gerber $tuning
