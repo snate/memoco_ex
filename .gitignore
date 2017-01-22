@@ -29,4 +29,4 @@
 *.app
 
 # Custom output files
-ex2_heur/output/
+#ex2_heur/output/
