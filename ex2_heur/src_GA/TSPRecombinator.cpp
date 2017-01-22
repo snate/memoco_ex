@@ -14,6 +14,16 @@ TSPSolution* TSPRecombinator::newOffspring(const TSPSolution& parent) {
   srand( time(NULL) );
   uint size = parent.sequence.size();
   vector<int> offspring(size);
+
+  // handle edge case (n = 3) with a tailored procedure
+  if(parent.sequence.size() == 4) {
+    offspring[0] = parent.sequence[0];
+    offspring[1] = parent.sequence[2];
+    offspring[2] = parent.sequence[1];
+    offspring[3] = parent.sequence[3];
+    return new TSPSolution(offspring);
+  }
+
   int index0 = rand() % (size - 2);
   int index1 = rand() % (size - 2);
   while(index0 == index1)
@@ -64,6 +74,17 @@ TSPSolution* TSPRecombinator::orderCrossover(TSPSolution* pOrigin,
   vector<int> offspringSequence;
   int length = sPivot.size();
   offspringSequence.resize(length);
+
+  // handle edge case (n = 3) with a tailored procedure
+  if(pOrigin->sequence.size() == 4) {
+    offspringSequence[0] = sOrigin[0];
+    offspringSequence[3] = sOrigin[3];
+    int count = 1;
+    for (int i = 0; count < 3; ++i)
+      if(sPivot[i] == sOrigin[1] || sPivot[i] == sOrigin[2])
+        offspringSequence[count++] = sPivot[i];
+    return new TSPSolution(offspringSequence);
+  }
 
   // copy from 0 to start
   for (int i = 0; i < start; i++)
