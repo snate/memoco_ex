@@ -24,8 +24,8 @@ TSPSolution* TSPRecombinator::newOffspring(const TSPSolution& parent) {
     return new TSPSolution(offspring);
   }
 
-  int index0 = rand() % (size - 2);
-  int index1 = rand() % (size - 2);
+  int index0 = rand() % (size - 3);
+  int index1 = rand() % (size - 3);
   while(index0 == index1)
     index1 = rand() % size;
   if(index0 > index1) {
@@ -50,8 +50,8 @@ vector<TSPSolution*> TSPRecombinator::
   srand( time(NULL) );
   vector<TSPSolution*> result(2);
   int length = parent0->sequence.size();
-  int index0 = rand() % (length - 2);
-  int index1 = rand() % (length - 2);
+  int index0 = rand() % (length - 3);
+  int index1 = rand() % (length - 3);
   while(index0 == index1)
     index1 = rand() % length;
   index0++; index1++;

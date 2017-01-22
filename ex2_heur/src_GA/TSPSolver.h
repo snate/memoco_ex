@@ -61,9 +61,9 @@ protected:
     input >> a;
     setPopulationSize(a);
     cout << "Population size: " << a << endl;
-    input >> a;
-    setTimeLimit(a);
-    cout << "Time limit (seconds): " << a << endl;
+    input >> b;
+    setTimeLimit(b);
+    cout << "Time limit (seconds): " << b << endl;
     input >> b;
     setMutationThreshold(b);
     cout << "Mutation threshold: " << b*100 << "%" << endl;
