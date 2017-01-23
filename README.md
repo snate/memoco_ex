@@ -11,12 +11,12 @@ the performance of the two methods implemented for exercise.
 To measure the performance of the exact method on the fixed instances (*345*,
 *tsp12*, *tsp60* and the *gerber* one), run the following command:
 
-    bash scripts/run_on_fixed_instances_1.sh
+    bash run_on_fixed_instances_1.sh
 
 To measure the performance of the genetic algorithm on the same instances as
 above, run the following command:
 
-    bash scripts/run_on_fixed_instances_2.sh
+    bash run_on_fixed_instances_2.sh
 
 __These script are intended to be used to execute repeated measurings of the
 program performance (7 by default), thus if you simply want to run the programs
@@ -28,7 +28,7 @@ To measure the performance of both parts of the exercise on the randomly
 generated instances (*random uniform*, *random grid uniform*, *random grid
 uniform with Manhattan distance*), run the following command:
 
-    bash scripts/run_on_random_instances.sh
+    bash run_on_random_instances.sh
 
 __These script are intended to be used to execute repeated measurings of the
 program performance (7 by default), thus if you simply want to run the programs
