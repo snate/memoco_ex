@@ -6,7 +6,7 @@ Exercises for 2016/2017 MEMOCO course @University of Padua
 In the root folder of the project (here) you can run some scripts to measure
 the performance of the two methods implemented for exercise.
 
-### Measure on fixed instances
+### Measure performance on fixed instances
 
 To measure the performance of the exact method on the fixed instances (*345*,
 *tsp12*, *tsp60* and the *gerber* one), run the following command:
@@ -20,7 +20,19 @@ above, run the following command:
 
 __These script are intended to be used to execute repeated measurings of the
 program performance (7 by default), thus if you simply want to run the programs
-see below.__
+just once to look how they behave, see below.__
+
+### Measure performance on randomly generated instances
+
+To measure the performance of both parts of the exercise on the randomly
+generated instances (*random uniform*, *random grid uniform*, *random grid
+uniform with Manhattan distance*), run the following command:
+
+    bash scripts/run_on_random_instances.sh
+
+__These script are intended to be used to execute repeated measurings of the
+program performance (7 by default), thus if you simply want to run the programs
+just once to look how they behave, see below.__
 
 ## PART I - Exact methods
 
