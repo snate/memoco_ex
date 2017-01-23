@@ -51,7 +51,7 @@ at the comments at the beginning of each block.
 \subsection{Sample data generation}
 An important point for this part of the assignment is being able to generate
 realistic data to make the solver run under different conditions.
-Therefore, I thought of creating data in three different manners.
+Therefore, I thought of creating data in several manners.
 
 \paragraph{Hard-coded values} The simplest way to have sample data to test the
 solution was to put fixed input data to the problem, so it was easy to see if
@@ -124,6 +124,13 @@ The algorithm works as follows:
 		either with the euclidean distance or the Manhattan distance.
 \end{enumerate}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\columnwidth]{pics/ru-grid.eps}
+  \caption{Graphic representation for Random Grid Uniform}
+  \label{fig:ru-grid-sketch}
+\end{figure}
+
 Clearly, this new manner of creating instances should be preferred to the
 Random Uniform method, which was much more shallow. However, also this methods
 relies more on an intuition than on real facts and therefore results generated
@@ -149,3 +156,10 @@ file and it will:
 	\item show the holes in a virtual grid;
 	\item produce a file containing the euclidean distance between the holes.
 \end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\columnwidth]{pics/gerber.eps}
+  \caption{Gerber instance sample}
+  \label{fig:gerber-instance-pic}
+\end{figure}
