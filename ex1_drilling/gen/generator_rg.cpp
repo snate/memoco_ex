@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
   int size = (int) strtol(argv[2], NULL, 0);
   int zonesPerDim = (int) strtol(argv[3], NULL, 0);
   ofstream file;
-  file.open("../instances/rg_data.dat");
+  file.open("instances/rg_data.dat");
   file<<holes<<endl;
   vector<vector<int> > distances = randSymmMatrixGen(holes, size, zonesPerDim);
   for(int i=0; i < holes; i++) {
