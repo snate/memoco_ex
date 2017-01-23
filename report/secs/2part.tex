@@ -1,1 +1,78 @@
 \section{Part II}
+
+In this section I'll describe the implementation details for the second part of
+the exercise, that is the one that tries to find a good solution thanks to a
+meta-heuristic.
+
+For this task I chose to use a classical genetic algorithm in which:
+
+\begin{itemize}
+	\item the stopping criterion is a time-out;
+	\item solutions are encoded as in the first part, i.e. ordered sequence of
+		visited nodes;
+	\item the initial population is obtained by creating some solutions with true
+		randomness and the other with a simulated annealing limited by the number
+		of iterations;
+	\item solutions are chosen from the population by using linear ranking;
+	\item recombination is performed by both an order crossover and a mutation;
+	\item solutions are evaluated by computing the value of the objective
+		function for each one of them;
+	\item elements of the population are replaced by using elitism, i.e. keeping
+		the best ones and picking at random among the rest the elements which will
+		be replaced by offspring.
+\end{itemize}
+
+In order to make the code more maintainable, I isolated each functionality in
+its own class, so that if we want to \texit{tune} the genetic algorithm we can
+do it by changing a value related to a specific part of the program.
+
+\subsection{Design decisions}
+
+\paragraph{Simulated Annealing} By adopting the Simulated Annealing method, I
+improved the initial population that before was created purely random.
+
+I chose this particular technique due to two of its main advantages:
+\begin{itemize}
+	\item Simulated Annealing is a local search, thus I've been able to
+		\textit{train} the initial population;
+	\item Simulated Annealing does not always choose an improving neighbour, so
+	  the program does not lose too much in diversification in the first steps.
+\end{itemize}
+
+\paragraph{Mutation} Many choices like elitism or linear ranking push the
+program to evolve with intensification.
+
+Mutation was not present in the first design of the algorithm. I introduced it
+to overcome an unwanted pattern that I recognized after several runs: it
+happened that one or two traits used to emerge against all the others. Thus, by employing these two techniques I've been able to introduce diversification
+in the genetic algorithm and obtain more variability in the solutions.
+
+In fact, the mutation I've implemented ignores completely the fitness of the
+solution and adds it to the offspring. The mutation present in this genetic
+algorithm consists of a 2-opt operation, that is a complete substring reversal
+in the encoding of the solution.
+
+\subsection{Parameter calibration}
+
+I tuned the program by varying the following parameters:
+
+\begin{itemize}
+	\item \textbf{time-out}, i.e. the stopping criterion ($5$ or $60$ seconds)
+	\item \textbf{mutation probability}, i.e. the probability for a mutation to
+		occur in a generation ($0.5$ or $1$)
+	\item \textbf{number of elements of the initial population generated with
+		heuristic} ($5$ or $0$)
+	\item \textbf{elite size}, i.e. the elite group size ($3$ or $20$)
+\end{itemize}
+
+Obviously, I ran the genetic algorithm several times before doing the
+comparison against the exact method of the part I. Therefore I was able to
+calibrate the parameters listed above and find some values indicated within
+brackets that looked significant to me\footnote{by saying this, I mean that
+by choosing either one of the two values we would obtain a noticeable
+difference in the goodness of the objective function}.
+
+
+
+
+

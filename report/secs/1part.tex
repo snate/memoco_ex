@@ -1,7 +1,7 @@
 \section{Part I -- Exact method}
 
 In this section I'll describe the implementation details for the first part of
-the exercise, e.g. the one that finds the global optimum thanks to \cplex.
+the exercise, i.e. the one that finds the global optimum thanks to \cplex.
 
 \subsection{Data structures}
 Before calling the proper API to solve the optimization problem, the main
@@ -13,12 +13,12 @@ that is accountable for generating variables and constraints: thus, along this
 function we need to keep track of the indexes of the variables we declared so
 that we are able to refer to them when creating the constraints.
 
-An initial solution may be to inspect how variables are defined and then
+An initial solution could be to inspect how variables are defined and then
 re-compute their indexes each time we need to refer to a given variable.
 
 It is easy to see that this approach may lead to poor code quality: if variables
 were generated in another procedure and then the incomplete problem was handed
-off to another programmer, it would have to look at \textit{how} her colleague
+off to another programmer, she would have to look at \textit{how} her colleague
 defined the variables (all of this without guarantees that the variables
 generation is fixed).
 
@@ -53,11 +53,11 @@ An important point for this part of the assignment is being able to generate
 realistic data to make the solver run under different conditions.
 Therefore, I thought of creating data in three different manners.
 
-\paragraph{Hard-coded values} The simpliest way to have sample data to test the
+\paragraph{Hard-coded values} The simplest way to have sample data to test the
 solution was to put fixed input data to the problem, so it was easy to see if
 both the problem and the solution given by the program were correct.
 
-The solver was in fact tested against this configuration:
+The solver was in fact tested against this configuration and other two:
 
 \begin{figure}[h!]
 \centering
@@ -68,11 +68,17 @@ The solver was in fact tested against this configuration:
 \end{tikzpicture}
 \end{figure}
 
-These points are placed in a classical $3$-$4$-$5$ pythagorian triple, thus it
+These points are placed in a classical $3$-$4$-$5$ Pythagorean triple, thus it
 is very easy to figure out the problem structure and its solution.
 
-\paragraph{Random generation} The second way we can generate sample data is
-doing it in a random fashion.
+Apart from this simple hard-coded configuration, I have used also two hard-coded
+configurations with 12 and 60 nodes, which we were given by the professor.
+
+\paragraph{Random Uniform generation} The second way we can generate sample data
+is doing it in a random uniform fashion.
+
+In fact, this generator produces a list of nodes and distances from one node to
+every other node.
 
 There are several benefits and drawbacks that come with this approach:
 
@@ -81,9 +87,9 @@ There are several benefits and drawbacks that come with this approach:
   \begin{itemize}
     \item When compared to the hard-coded value, it is easier to generate large
       samples to run the program against;
-    \item Compared to the next solution (generation from Gerber files), it is
-      easier to test the efficiency of the program against huge amount of data
-      (i.e., far bigger than a realistic drilling problem);
+    \item Compared to the Gerber generation, it is easier to test the
+		  efficiency of the program against huge amount of data (i.e., far bigger
+			than a realistic drilling problem);
     \item It provides some entropy among several runs, so it is less hard to
       capture the average behaviour of the program against a completely generic
       sample instance.
@@ -98,16 +104,48 @@ There are several benefits and drawbacks that come with this approach:
   \end{itemize}
 \end{itemize}
 
+\paragraph{Random Grid Uniform generation} The third way we can generate sample
+data is doing it in a random uniform fashion within cells of a grid.
+
+In fact, the previous approach did not consider the position of the points in
+the PCB (\textit{printed circuit boards}), yielding values which may be really
+unrealistic. A more realistic solution relies in dividing the grid into areas
+and then distribute a fraction of the holes in each one of them.
+
+The algorithm works as follows:
+\begin{enumerate}
+	\item the user has to provide, as input, the number of holes $n$, the size
+	  multiplier and the number of divisions;
+	\item the program generates a board which size is proportional to the holes
+		and the specified size;
+	\item $n$ holes are scattered across all the board, with a fair distribution
+	  among different areas;
+	\item the program generates a data file in which distances may be created
+		either with the euclidean distance or the Manhattan distance.
+\end{enumerate}
+
+Clearly, this new manner of creating instances should be preferred to the
+Random Uniform method, which was much more shallow. However, also this methods
+relies more on an intuition than on real facts and therefore results generated
+by this program should be evaluated with a certain degree of skepticism.
+
 \paragraph{Parsing Gerber files} As it has just been stated in the previous
-paragraph, random data generation might provide unrealistic samples, which
+paragraph random data generation might provide unrealistic samples, which
 we would like to be able to filter out in order to capture the average
 performance in \textbf{realistic} scenarios.
 
 It turns out that there is a de-facto standard to write files that represents
-PCBs (\textit{printed circuit boards}). More specifically, in this files we
-have the information of all the holes in a PCB among other information (size
-of the drill, length of the board, etc.).
+PCBs. More specifically, in this files we have the information of the positions
+of the holes in a PCB among other information (size of the drill, length of the
+board, etc.).
 
-Therefore, it has been enough to implement a simple Gerber parser to extract
+Therefore, Mirko Bez and I have implemented a simple Gerber parser to extract
 useful information (holes' position) from these files and re-format them so
 that they are good sample instances for the solver program.
+
+You can run this program on the browser, where you can feed it with a Gerber
+file and it will:
+\begin{itemize}
+	\item show the holes in a virtual grid;
+	\item produce a file containing the euclidean distance between the holes.
+\end{itemize}
