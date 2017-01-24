@@ -86,6 +86,9 @@ the CPU cycles rather than using the wall clock time.
 \paragraph{Note} Data and charts for variances will not be displayed since
 variances are really small.
 
+\paragraph{Note} Please keep in mind that the following charts displays time
+performance on a \textbf{logarithmic} scale.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\columnwidth]{pics/partI/mean-fixed.eps}
@@ -106,3 +109,23 @@ variances are really small.
   \caption{Time performance on configurations with 50 holes}
   \label{fig:mean-time-50}
 \end{figure}
+
+We can understand something about these charts:
+
+\begin{itemize}
+  \item Among the fixed instances, the \textit{345} one is very easy for
+    \cplex{} to solve, since it takes less than one hundredth of a second;
+  \item As expected, the Gerber instance (14 holes) is more or less as
+    difficult to solve as \textit{Tsp12}. However, randomly generated
+    instances with 10 holes are much more easier for \cplex{} to solve since
+    it took almost an order of magnitude less to find the optimal solution for
+    them.
+  \item The fixed instance \textit{Tsp60} is a little more demanding than the
+    randomly generated ones with 50 holes, but less than a 10x factor; this
+    leads me to think that when dealing with randomness sometimes we might
+    incur in very tough situations (for the solver) during testing;
+  \item On average, instances with Manhattan distance are easier to solve on
+    boards with a few holes compared to the Random Grid instances that use the
+    euclidean distance. However, this relation overturns when dealing with
+    randomly generated boards that have 50 holes.
+\end{itemize}
