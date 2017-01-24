@@ -40,7 +40,9 @@ expressive and clear manner rather than it is to make it efficiently.
 
 For this reason, variables of the sort $x_{i,j}$ and $y_{i,j}$ were defined in
 two separated cycles, iterating twice over the range of all $i,j\in{N}$, where
-$N$ is the set of holes.
+$N$ is the set of holes. Also, I did not taken out from the model the useless
+variables $x_{i,i}$, since they cause negligible effort both regarding to
+memory space and computing time.
 
 \subsection{Constraints generation}
 As it was done for variables, clarity has been chosen over efficiency for
