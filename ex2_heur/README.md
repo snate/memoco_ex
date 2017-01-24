@@ -5,8 +5,7 @@ developed for the part II of the memoco exercises.
 
 ## Run GA on different instances
 
-You can solve a Pythagorean 3-4-5 instance by entering the following command in
-this folder:
+You can solve a TSP instance by entering the following command in this folder:
 
     bash scripts/run/run_<instance>.sh <configuration>
 

@@ -1,9 +1,10 @@
 default: compile
 
 compile: report.tex
-	pdflatex report.tex
-	pdflatex report.tex
-	mv report.pdf memoco_report.pdf
+	pdflatex --shell-escape report.tex
+	pdflatex --shell-escape report.tex
+	pdflatex --shell-escape report.tex
+	#mv report.pdf memoco_report.pdf
 
 open:
 	open report.pdf
