@@ -30,3 +30,4 @@
 
 # Custom output files
 #ex2_heur/output/
+*.ods
