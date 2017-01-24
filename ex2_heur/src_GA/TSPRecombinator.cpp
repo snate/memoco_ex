@@ -24,10 +24,10 @@ TSPSolution* TSPRecombinator::newOffspring(const TSPSolution& parent) {
     return new TSPSolution(offspring);
   }
 
-  int index0 = rand() % (size - 3);
-  int index1 = rand() % (size - 3);
+  int index0 = rand() % (size - 2);
+  int index1 = rand() % (size - 2);
   while(index0 == index1)
-    index1 = rand() % size;
+    index1 = rand() % (size - 2);
   if(index0 > index1) {
     int aux = index0;
     index0 = index1;
