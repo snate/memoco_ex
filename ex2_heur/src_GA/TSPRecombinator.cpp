@@ -50,10 +50,10 @@ vector<TSPSolution*> TSPRecombinator::
   srand( time(NULL) );
   vector<TSPSolution*> result(2);
   int length = parent0->sequence.size();
-  int index0 = rand() % (length - 3);
-  int index1 = rand() % (length - 3);
+  int index0 = rand() % (length - 2);
+  int index1 = rand() % (length - 2);
   while(index0 == index1)
-    index1 = rand() % length;
+    index1 = rand() % (length - 2);
   index0++; index1++;
   if(index0 > index1) {
     int aux = index0;
