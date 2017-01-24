@@ -1,0 +1,194 @@
+\section{Comparison between Part I and Part II}
+
+In this section I will point up the gap between the \cplex{} solver and the
+genetic algorithm I implemented.
+
+The scenarios I used to make this comparison are the same ones against which I
+benchmarked Part I and Part II programs.
+
+\subsection{Gap with the optimal solution}
+
+The first comparison I will show is the one in which fixed instances were used.
+Obviously, since the genetic algorithm always managed to find the optimal
+solution for the \textit{345} instance, we have no loss of precision in that
+situation.
+
+\paragraph{Note} The values in the table are the mean percentage of error from
+the optimal solution.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+    \textbf{Instance} & \textbf{Avg} & \textbf{BE} &
+    \textbf{Mut} & \textbf{NH} & \textbf{Time} \\
+    \hline
+    \hline
+    \textit{345} & $0\%$ & $0\%$ & $0\%$ & $0\%$ & $0\%$ \\
+    \hline
+    \textit{tsp12} & $38.75\%$ & $36.92\%$ &
+            $39.14\%$ & $43.50\%$ & $8.69\%$ \\
+    \hline
+    \textit{tsp60} & $324.74\%$ & $301.63\%$ &
+            $319.31\%$ & $310.18\%$ & $228.58\%$ \\
+    \hline
+    \textit{gerber} & $42.73\%$ & $48.43\%$ &
+            $56.79\%$ & $47.07\%$ & $10.90\%$ \\
+    \hline
+  \end{tabular}
+  \caption{Precision loss for fixed instances with different calibrations}
+  \label{tab:precision-fixed}
+\end{table}
+
+After showing the results for the fixed instances, I will provide the results
+for the randomly generated instances by grouping them by number of holes and
+size.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+    \textbf{Instance} & \textbf{Avg} & \textbf{BE} &
+    \textbf{Mut} & \textbf{NH} & \textbf{Time} \\
+    \hline
+    \hline
+    \textit{ru} -- $10\ 10\ 2$ &
+    $28.86\%$ & $35.26\%$ & $47.87\%$ & $45.67\%$ & $12.76\%$ \\
+    \hline
+    \textit{rg} -- $10\ 10\ 2$ &
+    $13.14\%$ & $15.66\%$ & $14.45\%$ & $10.78\%$ & $5.11\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $10\ 10\ 2$ &
+    $29.18\%$ & $27.57\%$ & $26.36\%$ & $28.61\%$ & $4.68\%$ \\
+    \hline
+    \textit{ru} -- $10\ 10\ 4$ &
+    $31.75\%$ & $25.60\%$ & $38.22\%$ & $30.49\%$ & $38.23\%$ \\
+    \hline
+    \textit{rg} -- $10\ 10\ 4$ &
+    $17.14\%$ & $18.80\%$ & $21.43\%$ & $15.60\%$ & $9.42\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $10\ 10\ 4$ &
+    $35.57\%$ & $38.11\%$ & $35.13\%$ & $28.67\%$ & $28.52\%$ \\
+    \hline
+  \end{tabular}
+  \caption{Precision loss for instances with 10 holes and a 10x size factor}
+  \label{tab:precision-10-10}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+    \textbf{Instance} & \textbf{Avg} & \textbf{BE} &
+    \textbf{Mut} & \textbf{NH} & \textbf{Time} \\
+    \hline
+    \hline
+    \textit{ru} -- $10\ 100\ 2$ &
+    $52.98\%$ & $53.37\%$ & $43.04\%$ & $43.40\%$ & $18.82\%$ \\
+    \hline
+    \textit{rg} -- $10\ 100\ 2$ &
+    $30.35\%$ & $26.41\%$ & $42.58\%$ & $33.94\%$ & $13.37\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $10\ 100\ 2$ &
+    $40.72\%$ & $34.01\%$ & $38.22\%$ & $35.04\%$ & $21.42\%$ \\
+    \hline
+    \textit{ru} -- $10\ 100\ 4$ &
+    $33.13\%$ & $32.23\%$ & $33.57\%$ & $17.34\%$ & $13.45\%$ \\
+    \hline
+    \textit{rg} -- $10\ 100\ 4$ &
+    $24.38\%$ & $21.32\%$ & $23.03\%$ & $21.16\%$ & $4.82\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $10\ 100\ 4$ &
+    $22.52\%$ & $23.85\%$ & $27.17\%$ & $22.98\%$ & $5.05\%$ \\
+    \hline
+  \end{tabular}
+  \caption{Precision loss for instances with 10 holes and a 100x size factor}
+  \label{tab:precision-10-100}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+    \textbf{Instance} & \textbf{Avg} & \textbf{BE} &
+    \textbf{Mut} & \textbf{NH} & \textbf{Time} \\
+    \hline
+    \hline
+    \textit{ru} -- $50\ 10\ 2$ &
+    $880.64\%$ & $855.08\%$ & $879.58\%$ & $887.82\%$ & $539.65\%$ \\
+    \hline
+    \textit{rg} -- $50\ 10\ 2$ &
+    $143.71\%$ & $147.63\%$ & $137.85\%$ & $143.58\%$ & $111.20\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $50\ 10\ 2$ &
+    $151.96\%$ & $145.27\%$ & $148.62\%$ & $151.06\%$ & $119.41\%$ \\
+    \hline
+    \textit{ru} -- $50\ 10\ 4$ &
+    $835.40\%$ & $844.56\%$ & $888.89\%$ & $864.58\%$ & $549.03\%$ \\
+    \hline
+    \textit{rg} -- $50\ 10\ 4$ &
+    $163.71\%$ & $157.69\%$ & $152.06\%$ & $144.95\%$ & $111.92\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $50\ 10\ 4$ &
+    $139.22\%$ & $138.87\%$ & $153.23\%$ & $154.78\%$ & $118.00\%$ \\
+    \hline
+  \end{tabular}
+  \caption{Precision loss for instances with 50 holes and a 10x size factor}
+  \label{tab:precision-50-10}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+    \textbf{Instance} & \textbf{Avg} & \textbf{BE} &
+    \textbf{Mut} & \textbf{NH} & \textbf{Time} \\
+    \hline
+    \hline
+    \textit{ru} -- $50\ 100\ 2$ &
+    $680.37\%$ & $674.16\%$ & $685.20\%$ & $701.89\%$ & $458.52\%$ \\
+    \hline
+    \textit{rg} -- $50\ 100\ 2$ &
+    $157.00\%$ & $160.94\%$ & $162.68\%$ & $160.37\%$ & $134.29\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $50\ 100\ 2$ &
+    $179.84\%$ & $166.84\%$ & $176.30\%$ & $174.69\%$ & $140.24\%$ \\
+    \hline
+    \textit{ru} -- $50\ 100\ 4$ &
+    $671.49\%$ & $667.12\%$ & $696.45\%$ & $723.28\%$ & $448.72\%$ \\
+    \hline
+    \textit{rg} -- $50\ 100\ 4$ &
+    $165.13\%$ & $157.54\%$ & $177.00\%$ & $150.95\%$ & $122.31\%$ \\
+    \hline
+    \textit{rg\_Manh} -- $50\ 100\ 4$ &
+    $158.09\%$ & $153.80\%$ & $165.80\%$ & $145.64\%$ & $118.32\%$ \\
+    \hline
+  \end{tabular}
+  \caption{Precision loss for instances with 50 holes and a 100x size factor}
+  \label{tab:precision-50-100}
+\end{table}
+
+We can obtain some insights from this data:
+
+\begin{itemize}
+\item Here we have a further proof of what I stated in the previous section:
+  the genetic algorithm is not able to cope with big instances and short
+  amounts of time. In fact, when dealing with 50 or 60 holes, the algorithm
+  was not able to produce (on average) a solution which has an error lower
+  than $100\%$;
+
+\item After further tests\footnote{not reported in this document because they
+  were done during the phase of parameter tuning} I realized that even pushing
+  the timeout to three or four minutes, the precision we gain is not valuable
+  as it is switching from say, 5 seconds to a minute.
+
+\item At the same time, we can notice that the performance of the genetic
+  algorithm on small instances\footnote{instances with $\leq\ 15$ holes} are
+  not bad, since they on average get wrong under the $50\%$ w.r.t. optimality
+  almost on all cases.
+
+\item Another observation we can make is that the genetic algorithm probably
+  works better with more realistic instances: in fact, using the Random Uniform
+  generation we definitely have the worst scores, even when comparing them with
+  the 60-holes instance.
+\end{itemize}
