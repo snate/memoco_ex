@@ -1,0 +1,68 @@
+\section{Instructions for use}\label{sec:instructions}
+
+If you want to use this program, you can refer to the \texttt{README.md} present
+in the root folder and the other ones in the \texttt{ex1\_drilling} and
+\texttt{ex2\_heur} folders.
+
+I'll anyway put some basic instructions also in this document to provide a
+minimal reference for the use of the whole program.
+
+\subsection{Generating the gerber instances}
+
+In order to generate instances starting from Gerber files, open the file
+\texttt{ex1\_drilling/gen/gerber.html} in a browser.
+
+This webpage works both as a parser and a viewer for \texttt{.gbr} files; more
+detailed instructions are present in the \texttt{README.md} in the
+\texttt{ex1\_drilling} folder.
+
+\subsection{Generating the random instances}
+
+In order to generate some random instances, you have to move to the
+\texttt{ex1\_drilling} folder. Although the generators' source code is placed
+in the \texttt{gen} subfolder, I prepared some simple bash scripts for an easier
+usage.
+
+You can generate an instance by simply entering the following command in a bash
+shell:
+
+\begin{verbatim}
+bash scripts/generation/generateRandomData_<instance>.sh <no_of_holes> <board_size_factor> <divisions>
+\end{verbatim}
+
+You can choose an instance among the one listed in the \texttt{README.md} file.
+Also, the README explains what are the three parameters present in the above
+command.
+
+\subsection{Running the exact method}
+
+If you want to run the program that uses the \cplex{} solver, move to the
+\texttt{ex1\_drilling} folder. From here you can run some scripts to run the
+program by typing:
+
+\begin{verbatim}
+bash scripts/run/run_<instance>.sh
+\end{verbatim}
+
+Where \textit{\<instance\>} is the type of file you are willing to run the
+solver against.
+
+\subsection{Running the genetic algorithm}
+
+If you want to run the program that uses the genetic algorithm, move to the
+\texttt{ex2\_heur} folder. From here you can run some scripts to run the
+program by typing:
+
+\begin{verbatim}
+bash scripts/run/run_<instance>.sh <configuration>
+\end{verbatim}
+
+Where \textit{\<instance\>} is the type of file you are willing to run the
+algorithm against and \textit{\<configuration\>} is the file containing the
+calibration for the genetic algorithm parameters.
+
+You are free to write your own configuration (tuning) file and run the genetic
+algorithm using it for its settings.
+
+More details are present in the \texttt{README.md} file in the
+\texttt{ex2\_heur} folder.
