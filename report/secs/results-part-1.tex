@@ -78,7 +78,8 @@ instances' creation.
 Hereafter, I show how the exact method performed with each possible
 configuration. For convenience, I'll group fixed-size instances together.
 
-For each setting, at least 7 runs were executed to gather performance data.
+For each setting, at least 7 runs were executed to gather performance data,
+which should be a high-enough number of times for the sake of the exercise.
 
 \paragraph{Note} For these measurings, I have computed the time by looking at
 the CPU cycles rather than using the wall clock time.
@@ -129,3 +130,29 @@ We can understand something about these charts:
     euclidean distance. However, this relation overturns when dealing with
     randomly generated boards that have 50 holes.
 \end{itemize}
+
+In order to summarize a bit the performance of the exact method, I will show
+in a table the number of holes up to which the TSP can be solved in a fixed
+amount of time:
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|c|}
+    \hline
+    \textbf{Time limit} & \textbf{Maximum number of holes} \\
+    \hline
+    \hline
+    $0.1\ s$ & 10 \\
+    \hline
+    $1\ s$ & 19 \\
+    \hline
+    $10\ s$ & 38 \\
+    \hline
+    $1\ m$ & 54 \\
+    \hline
+    $10\ m$ & 85 \\
+    \hline
+  \end{tabular}
+  \caption{Holes threshold with fixed time}
+  \label{tab:stress-cplex}
+\end{table}
