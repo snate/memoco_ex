@@ -1,0 +1,43 @@
+\section{Conclusions}\label{sec:conclusions}
+
+The tests revealed that some instances work way more worse than others: in
+particular, Random Uniform generated instances (i.e., the ones generated with
+true randomness) present bad features:
+
+\begin{itemize}
+  \item they do not provide realistic data; and
+  \item the genetic algorithm performs particularly poorly when run against one
+    RU instance.
+\end{itemize}
+
+Aside from that, both the exact and the heuristic solver ought to be run against
+a Gerber instance, if there is one available for the specific problem.
+
+A minor feature that was not developed was integrating the Manhattan distance in
+instances other than the Random Grid Uniform. In fact, I did not think that it
+would have yielded so much added value since you can easily add it to any of the
+generators (even the Gerber one) if you ever had the need. \\
+
+Regarding the performance comparison between the two methods, the evaluation of
+the trade-off between the efficiency of a genetic algorithm and an exact method
+depends on up to loss of precision we are willing to accept an approximated
+solution.
+
+In fact, PCBs are much more like Random Grid instances and do not have a large
+number of holes: in fact, if electronic boards producers want to have a huge
+number of components (and therefore of holes/pins) on their cards, they probably
+would use SSIs, MSIs, LSIs or VLSIs\footnote{the number of components in this
+case range from about some tens to billions of elements}.
+
+Therefore, the genetic algorithm does not perform that bad when considering a
+realistic use case in which it has to design the route for a driller that has
+the task to make the holes in the PCB. \\
+
+Also, the genetic algorithm is free of charge, whereas the \cplex{} solver would
+cost about \$$10000$ for a single machine, so someone who wants to compute the
+optimal path for the driller may use the heuristic method having a decent
+trade-off also considering the pricing aspect.
+
+A probable threshold point would be if this person has to produce a number of
+boards such that the profits would outnumber \$$10000$ if he was able to
+improve by a factor of 1.5x or 2x the speed of the production.
