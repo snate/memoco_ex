@@ -39,7 +39,6 @@ vector<vector<int> > randSymmMatrixGen(int holes, int size, int divisions) {
     if (i >= holesPerZone* (zone+1))
       zone++;
   }
-  // TODO: compute distances using Manhattan distance
   vector<vector<int> > distancesMatrix;
   distancesMatrix.resize(holes);
   for (int i = 0; i < holes; i++) {
@@ -64,7 +63,7 @@ int main(int argc, char* argv[]) {
   int size = (int) strtol(argv[2], NULL, 0);
   int zonesPerDim = (int) strtol(argv[3], NULL, 0);
   ofstream file;
-  file.open("instances/rg_data_Manh.dat");
+  file.open("../instances/rg_data_Manh.dat");
   file<<holes<<endl;
   vector<vector<int> > distances = randSymmMatrixGen(holes, size, zonesPerDim);
   for(int i=0; i < holes; i++) {

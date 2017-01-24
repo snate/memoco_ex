@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
   int limit = (int) strtol(argv[1], NULL, 0);
   int size = (int) strtol(argv[2], NULL, 0);
   ofstream file;
-  file.open("instances/ru_data.dat");
+  file.open("../instances/ru_data.dat");
   file<<limit<<endl;
   vector<vector<int> > distances = randSymmMatrixGen(limit, size);
   for(int i=0; i < limit; i++) {
